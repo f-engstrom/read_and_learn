@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { TextsListComponent } from './texts/texts-list/texts-list.component';
 import { AddTextComponent } from './texts/add-text/add-text.component';
+import { TextsComponent } from './texts/texts/texts.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     TextsListComponent,
-    AddTextComponent
+    AddTextComponent,
+    TextsComponent
   ],
   imports: [
     BrowserModule,
