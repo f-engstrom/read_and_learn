@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TextsService} from "../texts.service";
 
 @Component({
   selector: 'app-texts-list',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TextsListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private textsService:TextsService) { }
 
   ngOnInit(): void {
   }
