@@ -4,13 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { TextsListComponent } from './texts-list/texts-list.component';
+import { TextsListComponent } from './texts/texts-list/texts-list.component';
+import { AddTextComponent } from './texts/add-text/add-text.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    TextsListComponent
+    TextsListComponent,
+    AddTextComponent
   ],
   imports: [
     BrowserModule,
