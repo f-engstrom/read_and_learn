@@ -21,7 +21,7 @@ export class ReadTextsComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
 
       console.log("par", params);
-        this.text= this.textService.getText(params['textname']) as Text;
+        this.text= this.textService.getText(params['textid']) as Text;
 
     })
 

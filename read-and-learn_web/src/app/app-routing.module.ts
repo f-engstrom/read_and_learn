@@ -22,7 +22,7 @@ const routes: Routes = [
 
     },
       {
-        path:":textname",
+        path:":textid/:textname",
         component:ReadTextsComponent
 
       }
