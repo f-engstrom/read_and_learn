@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {TextsListComponent} from "./texts/texts-list/texts-list.component";
 import {AddTextComponent} from "./texts/add-text/add-text.component";
 import {TextsComponent} from "./texts/texts/texts.component";
+import {ReadTextsComponent} from "./texts/read-texts/read-texts.component";
 
 const routes: Routes = [
   {
@@ -14,11 +15,20 @@ const routes: Routes = [
       component:TextsListComponent
 
 
-    },{
+    },
+      {
       path: "add",
       component: AddTextComponent
 
-    }]
+    },
+      {
+        path:":textname",
+        component:ReadTextsComponent
+
+      }
+
+
+    ]
   }
 
 ];

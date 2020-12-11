@@ -7,6 +7,11 @@ import { HeaderComponent } from './header/header.component';
 import { TextsListComponent } from './texts/texts-list/texts-list.component';
 import { AddTextComponent } from './texts/add-text/add-text.component';
 import { TextsComponent } from './texts/texts/texts.component';
+import {FormsModule} from "@angular/forms";
+import { ReadTextsComponent } from './texts/read-texts/read-texts.component';
+import { HttpClientModule} from "@angular/common/http";
+import { WordEditComponent } from './words/word-edit/word-edit.component';
+import { WordsListComponent } from './words/words-list/words-list.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +19,17 @@ import { TextsComponent } from './texts/texts/texts.component';
     HeaderComponent,
     TextsListComponent,
     AddTextComponent,
-    TextsComponent
+    TextsComponent,
+    ReadTextsComponent,
+    WordEditComponent,
+    WordsListComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

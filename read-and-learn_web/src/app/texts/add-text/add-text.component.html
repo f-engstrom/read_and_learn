@@ -1,1 +1,26 @@
-<p>add-text works!</p>
+<form (ngSubmit)="onSubmit(addTextForm)" #addTextForm="ngForm">
+
+  <label for="name">Name</label>
+  <input
+    name="textName"
+    type="text"
+    id="name"
+    ngModel
+    required
+  >
+  <label for="text">Text</label>
+  <textarea
+    name="text"
+    id="text"
+    ngModel
+    required
+  ></textarea>
+
+  <button
+    type="submit"
+    [disabled]="addTextForm.invalid"
+  >
+    Add text
+  </button>
+
+</form>
