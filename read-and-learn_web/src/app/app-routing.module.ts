@@ -4,6 +4,9 @@ import {TextsListComponent} from "./texts/texts-list/texts-list.component";
 import {AddTextComponent} from "./texts/add-text/add-text.component";
 import {TextsComponent} from "./texts/texts/texts.component";
 import {ReadTextsComponent} from "./texts/read-texts/read-texts.component";
+import {WordsComponent} from "./words/words/words.component";
+import {WordsListComponent} from "./words/words-list/words-list.component";
+import {WordEditComponent} from "./words/word-edit/word-edit.component";
 
 const routes: Routes = [
   {
@@ -28,6 +31,22 @@ const routes: Routes = [
       }
 
 
+    ]
+  },
+  {
+    path:"words",
+    component:WordsComponent,
+    children:[{
+
+      path:"",
+      pathMatch: "full",
+      component: WordsListComponent
+
+    },
+      {
+        path:"edit",
+        component: WordEditComponent
+      }
     ]
   }
 

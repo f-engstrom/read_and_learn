@@ -13,6 +13,8 @@ import { HttpClientModule} from "@angular/common/http";
 import { WordEditComponent } from './words/word-edit/word-edit.component';
 import { WordsListComponent } from './words/words-list/words-list.component';
 import { WordAddOrUpdateComponent } from './words/word-add-or-update/word-add-or-update.component';
+import { WordsComponent } from './words/words/words.component';
+import { RenderWordsComponent } from './texts/render-words/render-words.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { WordAddOrUpdateComponent } from './words/word-add-or-update/word-add-or
     WordEditComponent,
     WordsListComponent,
     WordAddOrUpdateComponent,
+    WordsComponent,
+    RenderWordsComponent,
   ],
   imports: [
     BrowserModule,

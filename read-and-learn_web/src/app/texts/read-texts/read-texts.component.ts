@@ -12,6 +12,7 @@ export class ReadTextsComponent implements OnInit {
 
 
   text!: Text;
+  words!:string[];
 
   constructor(private textService: TextsService, private activatedRoute: ActivatedRoute) {
   }
@@ -22,6 +23,7 @@ export class ReadTextsComponent implements OnInit {
 
       console.log("par", params);
         this.text= this.textService.getText(params['textid']) as Text;
+        this.words = this.text.body.split(" ");
 
     })
 

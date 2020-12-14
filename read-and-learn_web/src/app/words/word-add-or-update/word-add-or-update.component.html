@@ -1,1 +1,17 @@
 <p>word-add-or-update works!</p>
+<div *ngIf="word">
+
+
+  <form (ngSubmit)="onSubmit(wordForm)" #wordForm="ngForm">
+
+    <p>{{word.word}}</p>
+
+    <label for="translations">Translations:</label>
+    <textarea [(ngModel)]="word.translations" name="translations" id="translations" cols="30" rows="10"></textarea>
+    <label for="tags">Tags:</label>
+    <textarea [(ngModel)]="word.tags" name="tags" id="tags" cols="30" rows="10"></textarea>
+
+    <button class="btn btn-success">{{isKnown?'Update':'Add'}}</button>
+
+  </form>
+</div>

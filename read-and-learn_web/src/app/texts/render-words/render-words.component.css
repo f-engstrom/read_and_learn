@@ -1,0 +1,10 @@
+.knownWord{
+  text-decoration: underline double green;
+  text-underline-position: under;
+
+}
+.unknownWord{
+
+  text-decoration: underline  red;
+  text-underline-position: under
+}

@@ -1,4 +1,6 @@
 <p>texts-list works!</p>
+<a [routerLink]="['/texts/add']">Add Text</a>
+
 <ul>
   <li *ngFor="let text of texts">
     <a [routerLink]="[text.id,text.urlSlug]"  ><span>{{text.name}}</span></a> | <span>{{text.nrOfWords}}</span>
