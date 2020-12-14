@@ -8,3 +8,8 @@
   text-decoration: underline  red;
   text-underline-position: under
 }
+
+.word{
+  padding-left: 5px;
+  padding-right: 5px;
+}

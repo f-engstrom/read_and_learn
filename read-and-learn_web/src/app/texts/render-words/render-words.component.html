@@ -1,1 +1,1 @@
-<span *ngIf="!skipChar" [ngClass]="{'knownWord': isKnown, 'unknownWord':!isKnown}" (click)="onAddOrUpdate()">{{inputWord}} </span>
+<span *ngIf="!skipChar" class="word" [ngClass]="{'knownWord': isKnown, 'unknownWord':!isKnown}" (click)="onAddOrUpdate()">{{inputWord}} </span>

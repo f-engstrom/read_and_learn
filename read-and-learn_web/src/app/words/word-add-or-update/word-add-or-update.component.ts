@@ -18,6 +18,7 @@ export class WordAddOrUpdateComponent implements OnInit {
 
     this.wordService.chosenWord.subscribe(word=> {
 
+      this.isKnown=false;
       if (word) this.word = word;
 
       if (this.wordService.findWord(word.word)) this.isKnown =true;
@@ -30,6 +31,7 @@ export class WordAddOrUpdateComponent implements OnInit {
   onSubmit(wordForm: NgForm) {
 
     console.log("submit",wordForm);
+    this.wordService.addWord(this.word);
 
   }
 }

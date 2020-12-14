@@ -7,26 +7,28 @@ import {ReadTextsComponent} from "./texts/read-texts/read-texts.component";
 import {WordsComponent} from "./words/words/words.component";
 import {WordsListComponent} from "./words/words-list/words-list.component";
 import {WordEditComponent} from "./words/word-edit/word-edit.component";
+import {TextsResolver} from "./texts/texts.resolver";
 
 const routes: Routes = [
   {
     path: "texts",
     component: TextsComponent,
     children: [{
-      path:"",
-      pathMatch:"full",
-      component:TextsListComponent
+      path: "",
+      pathMatch: "full",
+      component: TextsListComponent
 
 
     },
       {
-      path: "add",
-      component: AddTextComponent
+        path: "add",
+        component: AddTextComponent
 
-    },
+      },
       {
-        path:":textid/:textname",
-        component:ReadTextsComponent
+        path: ":textid/:textname",
+        resolve: {textData: TextsResolver},
+        component: ReadTextsComponent
 
       }
 
@@ -34,17 +36,17 @@ const routes: Routes = [
     ]
   },
   {
-    path:"words",
-    component:WordsComponent,
-    children:[{
+    path: "words",
+    component: WordsComponent,
+    children: [{
 
-      path:"",
+      path: "",
       pathMatch: "full",
       component: WordsListComponent
 
     },
       {
-        path:"edit",
+        path: "edit",
         component: WordEditComponent
       }
     ]

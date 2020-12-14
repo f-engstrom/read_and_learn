@@ -24,21 +24,36 @@ export class RenderWordsComponent implements OnInit {
     // this.skipChar = this.skipChars.includes(this.word);
 
 
-    if (this.wordService.findWord(this.inputWord)){
+    if (this.wordService.findWord(this.inputWord)) {
 
       this.isKnown = true;
       this.word = this.wordService.findWord(this.inputWord);
 
 
-    }else{
+    } else {
       let word = this.inputWord.replace(/[[0-9.,«»;]+/g, "");
 
       this.word = new Word(word)
 
     }
 
+    this.wordService.updatedWord.subscribe(word => {
+
+      if (word){
+        // @ts-ignore
+        if (this.wordService.findWord(this.word.word)) {
+
+          this.isKnown = true;
+          this.word = this.wordService.findWord(this.inputWord);
 
 
+        }
+
+      }
+
+
+
+    })
 
 
   }
