@@ -1,1 +1,19 @@
-<p>words-list works!</p>
+
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Word</th>
+    <th scope="col">Translations</th>
+    <th scope="col">Tags</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let word of words">
+    <td>{{word.word}}</td>
+    <td>{{word.translations}}</td>
+    <td>{{word.tags}}</td>
+  </tr>
+
+  </tbody>
+</table>

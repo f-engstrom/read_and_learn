@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {WordService} from "../word.service";
+import {Word} from "../../shared/models/word";
 
 @Component({
   selector: 'app-words-list',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WordsListComponent implements OnInit {
 
-  constructor() { }
+  words: Word[] = [];
+
+  constructor(private wordService: WordService) {
+  }
 
   ngOnInit(): void {
+
+
+    this.wordService.getWords().subscribe((words: Word[]) => {
+
+      console.log("woooords", words);
+
+      if (words) this.words = words;
+
+    })
+
   }
 
 }
