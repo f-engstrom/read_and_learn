@@ -1,26 +1,41 @@
-<form (ngSubmit)="onSubmit(addTextForm)" #addTextForm="ngForm">
+<div class="row">
+  <div class="col-md-12">
+    <form (ngSubmit)="onSubmit(addTextForm)" #addTextForm="ngForm">
+      <div class="row">
+        <div class="col-md-12">
 
-  <label for="name">Name</label>
-  <input
-    name="textName"
-    type="text"
-    id="name"
-    ngModel
-    required
-  >
-  <label for="text">Text</label>
-  <textarea
-    name="text"
-    id="text"
-    ngModel
-    required
-  ></textarea>
-
-  <button
-    type="submit"
-    [disabled]="addTextForm.invalid"
-  >
-    Add text
-  </button>
-
-</form>
+          <button type="submit" [disabled]="addTextForm.invalid" class="btn btn-success">Save</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text"
+                   id="name"
+                   class="form-control"
+                   name="textName"
+                   ngModel
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="text">Text</label>
+            <textarea
+              name="text"
+              id="text"
+              ngModel
+              rows="30"
+              class="form-control"
+              required
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

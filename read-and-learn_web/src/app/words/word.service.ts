@@ -59,6 +59,7 @@ export class WordService {
 
   findWord(searchWord: string) {
 
+
     return this.words.find(word => {
       return word.word.toLowerCase() === searchWord.toLowerCase();
     })
@@ -69,6 +70,46 @@ export class WordService {
 
     this.words.push(word);
     this.updatedWord.next(word);
+
+    console.log("add word", word.translations);
+
+    let translations =  word.translations?.map(trans =>{
+      return {
+        stringValue: trans
+      }
+    });
+
+    let tags = word.tags?.map(tags => {
+      return {
+        stringValue: tags
+      }
+    });
+
+    const body = {
+      fields: {
+        tags: {
+          arrayValue: {
+
+            values: translations
+          }
+        },
+        translations: {
+          arrayValue: {
+
+            values: tags
+          }
+        },
+        word: {
+          stringValue: word.word
+        }
+      }
+    }
+
+
+    this.http.post("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/words/", body).subscribe(res => {
+        console.log("res", res);
+      }
+    )
 
   }
 
@@ -90,6 +131,7 @@ export class WordService {
   private fetchWords() {
 
     return this.http.get<WordResponse>("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/words/").pipe(map(wordRe => {
+      console.log("fetch wiords");
 
       return wordRe.documents.map((word) => {
         let arr = word.name.split("/");

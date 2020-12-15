@@ -1,4 +1,3 @@
-<p>word-add-or-update works!</p>
 <div *ngIf="word">
 
 
@@ -6,11 +5,18 @@
 
     <p>{{word.word}}</p>
 
-    <label for="translations">Translations:</label>
-    <textarea [(ngModel)]="word.translations" name="translations" id="translations" cols="30" rows="10"></textarea>
-    <label for="tags">Tags:</label>
-    <textarea [(ngModel)]="word.tags" name="tags" id="tags" cols="30" rows="10"></textarea>
+    <div class="form-group">
+      <label for="translations">Translations:</label>
+      <textarea [(ngModel)]="word.translations" class="form-control" name="translations" id="translations" cols="30"
+                rows="10"></textarea>
+    </div>
 
+    <div class="form-group">
+
+      <label for="tags">Tags:</label>
+      <textarea [(ngModel)]="word.tags" class="form-control" name="tags" id="tags" cols="30" rows="10"></textarea>
+
+    </div>
     <button type="submit" class="btn btn-success">{{isKnown?'Update':'Add'}}</button>
 
   </form>

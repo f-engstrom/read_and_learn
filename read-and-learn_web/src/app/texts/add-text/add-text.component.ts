@@ -25,4 +25,8 @@ export class AddTextComponent implements OnInit {
     this.router.navigate(["/texts"]);
 
   }
+
+  onCancel() {
+
+  }
 }

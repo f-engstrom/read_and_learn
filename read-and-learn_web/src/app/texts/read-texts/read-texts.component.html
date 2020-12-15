@@ -2,7 +2,12 @@
   <div class="col-md-8">
     <p>Name: {{text.name}}</p>
 
-    <p><app-render-words *ngFor="let word of words" [inputWord]="word"></app-render-words></p>
+    <div *ngFor="let paragraph of words">
+      <p >
+        <app-render-words *ngFor="let word of paragraph " [inputWord]="word"></app-render-words>
+      </p>
+
+    </div>
   </div>
   <div class="col-md-4">
     <app-word-add-or-update></app-word-add-or-update>
