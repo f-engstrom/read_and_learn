@@ -73,7 +73,7 @@ export class WordService {
 
     console.log("add word", word.translations);
 
-    let translations =  word.translations?.map(trans =>{
+    let translations = word.translations?.map(trans => {
       return {
         stringValue: trans
       }
@@ -90,13 +90,13 @@ export class WordService {
         tags: {
           arrayValue: {
 
-            values: translations
+            values: tags
           }
         },
         translations: {
           arrayValue: {
 
-            values: tags
+            values: translations
           }
         },
         word: {
@@ -148,4 +148,37 @@ export class WordService {
 
 
   }
+
+
+  countUnknownWords(text: string) {
+
+
+    const onlyText = text.replace(/[[0-9.,«»:;!?\n]+/g, "");
+    const words = onlyText.split(" ");
+    const unique = words.filter(this.onlyUnique);
+
+    let unknownWords = 0;
+
+    unique.map(textWord => {
+
+
+      let foundWOrd = this.words.filter(word => {
+        return word.word === textWord
+      })
+
+      if (foundWOrd.length === 0) {
+        unknownWords++;
+      }
+
+    })
+
+    return unknownWords;
+
+  }
+
+  onlyUnique(value: any, index: any, self: any) {
+    return self.indexOf(value) === index;
+  }
+
+
 }

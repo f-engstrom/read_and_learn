@@ -16,7 +16,7 @@
                    id="name"
                    class="form-control"
                    name="textName"
-                   ngModel
+                   [(ngModel)]="text.name"
             >
           </div>
         </div>
@@ -28,7 +28,7 @@
             <textarea
               name="text"
               id="text"
-              ngModel
+              [(ngModel)]="text.body"
               rows="30"
               class="form-control"
               required

@@ -21,7 +21,6 @@ export class RenderWordsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.skipChar = this.skipChars.includes(this.word);
 
 
     if (this.wordService.findWord(this.inputWord)) {
@@ -37,11 +36,9 @@ export class RenderWordsComponent implements OnInit {
 
     }
 
-    this.wordService.updatedWord.subscribe(word => {
+    this.wordService.updatedWord.subscribe(updatedWord => {
 
-      if (word){
-        // @ts-ignore
-        if (this.wordService.findWord(this.word.word)) {
+      if (updatedWord.word === this.word?.word){
 
           this.isKnown = true;
           this.word = this.wordService.findWord(this.inputWord);
@@ -49,7 +46,7 @@ export class RenderWordsComponent implements OnInit {
 
         }
 
-      }
+
 
 
 

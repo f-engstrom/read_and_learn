@@ -30,8 +30,13 @@ export class WordAddOrUpdateComponent implements OnInit {
 
   onSubmit(wordForm: NgForm) {
 
-    console.log("submit",wordForm);
-    this.wordService.addWord(this.word);
+    console.log("submit",wordForm.value);
+    let translations= wordForm.value.translations.split(",") as string[];
+    let tags = wordForm.value.tags.split(",") as string[];
+
+
+    const word = new Word(this.word.word,"",translations,tags)
+    this.wordService.addWord(word);
 
   }
 }

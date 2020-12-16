@@ -21,7 +21,11 @@ const routes: Routes = [
 
     },
       {
-        path: "add",
+        path:'add',
+        component: AddTextComponent,
+      },
+      {
+        path: "edit/:textid/:textname",
         component: AddTextComponent
 
       },

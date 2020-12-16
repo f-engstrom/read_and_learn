@@ -3,6 +3,7 @@ import {TextsService} from "../texts.service";
 import {map} from "rxjs/operators";
 import {Text} from "../../shared/models/text";
 import {Subscription} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-texts-list',
@@ -11,15 +12,18 @@ import {Subscription} from "rxjs";
 })
 export class TextsListComponent implements OnInit, OnDestroy {
 
-  constructor(private textsService: TextsService) {
+  constructor(private textsService: TextsService,private router:Router,private route:ActivatedRoute) {
   }
 
   texts: Text[] = [];
   textSub!: Subscription;
+  textChangedSub!:Subscription;
 
   ngOnInit() {
 
     this.textSub = this.textsService.getTexts().subscribe(texts => this.texts = texts);
+    this.textChangedSub = this.textsService.textSub.subscribe(texts => this.texts = texts);
+
   }
 
   ngOnDestroy() {
@@ -27,4 +31,16 @@ export class TextsListComponent implements OnInit, OnDestroy {
   }
 
 
+  onDelete(id: string) {
+
+    this.textsService.deleteText(id);
+
+  }
+
+  onEdit(text: Text) {
+
+    this.router.navigate(["edit",text.id,text.urlSlug],{relativeTo:this.route})
+
+
+  }
 }
