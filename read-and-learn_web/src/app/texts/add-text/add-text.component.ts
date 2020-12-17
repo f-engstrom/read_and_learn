@@ -14,7 +14,7 @@ export class AddTextComponent implements OnInit {
   constructor(private textsService: TextsService, private router: Router, private route: ActivatedRoute) {
   }
 
-  text!: Text | undefined;
+  text: Text  = new Text("", "", "", 0,);
   editMode: boolean = false;
 
   ngOnInit(): void {
@@ -24,8 +24,9 @@ export class AddTextComponent implements OnInit {
       if (params['textid']) {
         console.log("editmode");
         this.editMode = true;
-        this.text = this.textsService.getText(params['textid'])
+        this.text = this.textsService.getText(params['textid']) as Text;
 
+      } else {
       }
 
 

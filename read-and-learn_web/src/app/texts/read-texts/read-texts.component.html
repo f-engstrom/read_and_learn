@@ -3,13 +3,28 @@
     <p>Name: {{text.name}}</p>
     <p>Words to learn: {{unkownWords}}</p>
 
-    <div *ngFor="let paragraph of words">
-      <p >
+    <!--    <div *ngFor="let paragraph of words">-->
+    <!--      <p >-->
+    <!--        <app-render-words *ngFor="let word of paragraph " [inputWord]="word"></app-render-words>-->
+    <!--      </p>-->
+
+    <!--    </div>-->
+    <div *ngFor="let paragraph of currentPage.paragraphs">
+      <p>
         <app-render-words *ngFor="let word of paragraph " [inputWord]="word"></app-render-words>
       </p>
-
     </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" (click)="onPageDown()"><a class="page-link">Previous</a></li>
+
+        <li class="page-item" (click)="onPageUp()" ><a class="page-link">Next</a></li>
+      </ul>
+    </nav>
   </div>
+
+
   <div class="col-md-4">
     <app-word-add-or-update></app-word-add-or-update>
   </div>
