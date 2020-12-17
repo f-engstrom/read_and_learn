@@ -147,7 +147,8 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
   onPageUp() {
 
-    if (this.pangeNr + 1 <= this.pages.length) {
+    if (this.pangeNr+1  <= this.pages.length-1) {
+      console.log(`page nr ${this.pangeNr+1 } pages  ${this.pages.length-1} `)
 
       this.pangeNr++;
       this.currentPage = this.pages[this.pangeNr];

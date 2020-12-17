@@ -30,7 +30,7 @@ export class RenderWordsComponent implements OnInit {
 
 
     } else {
-      let word = this.inputWord.replace(/[[0-9.,«»;]+/g, "");
+      let word = this.inputWord.replace(/[[0-9.,«»;!?]+/g, "");
 
       this.word = new Word(word)
 
