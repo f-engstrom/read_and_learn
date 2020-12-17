@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WordService} from "../word.service";
 import {Word} from "../../shared/models/word";
 import {NgForm} from "@angular/forms";
@@ -12,16 +12,20 @@ export class WordAddOrUpdateComponent implements OnInit {
   word!: Word;
   isKnown: boolean = false;
 
-  constructor(private wordService:WordService) { }
+  constructor(private wordService: WordService) {
+  }
 
   ngOnInit(): void {
 
-    this.wordService.chosenWord.subscribe(word=> {
+    this.wordService.chosenWord.subscribe(word => {
 
-      this.isKnown=false;
-      if (word) this.word = word;
+      console.log("clicked word", word);
 
-      if (this.wordService.findWord(word.word)) this.isKnown =true;
+      this.isKnown = false;
+        if (word) {
+          this.word = word;
+        }
+        if (this.wordService.findWord(word.word)) this.isKnown = true;
 
       }
     );
@@ -30,12 +34,12 @@ export class WordAddOrUpdateComponent implements OnInit {
 
   onSubmit(wordForm: NgForm) {
 
-    console.log("submit",wordForm.value);
-    let translations= wordForm.value.translations.split(",") as string[];
+    console.log("submit", wordForm.value);
+    let translations = wordForm.value.translations.split(",") as string[];
     let tags = wordForm.value.tags.split(",") as string[];
 
 
-    const word = new Word(this.word.word,"",translations,tags)
+    const word = new Word(this.word.word, "", translations, tags)
     this.wordService.addWord(word);
 
   }
