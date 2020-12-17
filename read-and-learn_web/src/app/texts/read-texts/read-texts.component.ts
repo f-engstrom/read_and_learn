@@ -69,12 +69,13 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
     let paragraphs = textBody.split(/\n/);
 
     let pageLength = 0;
+    let nrParagraphs = 0;
 
     for (let paragraph of paragraphs) {
 
       let paragraphLength = paragraph.split(" ").length;
 
-      if (paragraphLength + pageLength <= 330) {
+      if (paragraphLength + pageLength <= 330 && nrParagraphs <6) {
 
 
         let paragraphWords = paragraph.split(" ");
@@ -82,18 +83,22 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
         page.paragraphs.push(paragraphWords);
 
         pageLength += paragraphLength;
+        nrParagraphs++;
 
       } else {
 
         pages.push(page);
         page = new Page([]);
         pageLength = 0;
+        nrParagraphs =0;
 
         let paragraphWords = paragraph.split(" ");
 
         page.paragraphs.push(paragraphWords);
 
         pageLength += paragraphLength;
+        nrParagraphs++;
+
 
       }
 
@@ -130,7 +135,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
 
-    if (this.unkownWords !== this.text.unKnownWords) this.textService.updateText(new Text(this.text.id, this.text.name, this.text.body, this.text.nrOfWords, this.unkownWords))
+    if (this.unkownWords !== this.text.unKnownWords) this.textService.updateText(new Text(this.text.id, this.text.name, this.text.body, this.unkownWords))
   }
 
 

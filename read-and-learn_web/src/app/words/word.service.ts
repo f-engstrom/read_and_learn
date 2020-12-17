@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {of, Subject} from "rxjs";
 import {Word} from "../shared/models/word";
 import {map, tap} from "rxjs/operators";
-import {Text} from "../shared/models/text";
 import {HttpClient} from "@angular/common/http";
 
 
@@ -108,7 +107,7 @@ export class WordService {
 
     this.http.post("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/words/", body).subscribe(res => {
         console.log("res", res);
-      }
+      },error => {console.log("words error",error)}
     )
 
   }
@@ -137,7 +136,11 @@ export class WordService {
         let arr = word.name.split("/");
         let id = arr[arr.length - 1];
         let translations = word.fields.translations.arrayValue.values.map(stringObj => stringObj.stringValue);
-        let tags = word.fields.tags.arrayValue.values.map(stringObj => stringObj.stringValue);
+        let tags:string[]=[];
+        if (word.fields.tags.arrayValue.values){
+           tags = word.fields.tags.arrayValue.values.map(stringObj => stringObj.stringValue);
+
+        }
 
 
         return new Word(word.fields.word.stringValue, id, translations, tags);

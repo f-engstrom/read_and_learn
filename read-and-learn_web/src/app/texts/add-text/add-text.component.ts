@@ -3,6 +3,7 @@ import {NgForm} from "@angular/forms";
 import {TextsService} from "../texts.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Text} from "../../shared/models/text";
+import {WordService} from "../../words/word.service";
 
 @Component({
   selector: 'app-add-text',
@@ -11,7 +12,7 @@ import {Text} from "../../shared/models/text";
 })
 export class AddTextComponent implements OnInit {
 
-  constructor(private textsService: TextsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private textsService: TextsService, private router: Router, private route: ActivatedRoute,private wordService:WordService) {
   }
 
   text: Text  = new Text("", "", "", 0,);
@@ -39,11 +40,11 @@ export class AddTextComponent implements OnInit {
     console.log("add text", addTextForm.value.textName);
 
     if (!this.editMode) {
-      this.textsService.addText({textName: addTextForm.value.textName, textBody: addTextForm.value.text})
+      this.textsService.addText(new Text(this.text?.id as string, addTextForm.value.textName, addTextForm.value.text, this.wordService.countUnknownWords(addTextForm.value.text)))
 
     } else {
 
-      this.textsService.updateText(new Text(this.text?.id as string, addTextForm.value.textName, addTextForm.value.text, this.text?.nrOfWords as number, this.text?.unKnownWords))
+      this.textsService.updateText(new Text(this.text?.id as string, addTextForm.value.textName, addTextForm.value.text, this.wordService.countUnknownWords(addTextForm.value.text)))
     }
 
 

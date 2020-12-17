@@ -6,13 +6,20 @@
   <thead>
   <tr>
     <th scope="col">Name</th>
-    <th scope="col">Words to learn</th>
+    <th scope="col">Unkown words</th>
+    <th scope="col">Words</th>
+    <th scope="col">Percentage</th>
+    <th scope="col">Text length</th>
+
   </tr>
   </thead>
   <tbody>
   <tr  *ngFor="let text of texts">
     <td><a [routerLink]="[text.id,text.urlSlug]"><span>{{text.name}}</span></a> </td>
-    <td>{{text.unKnownWords}}/{{text.nrOfWords}}</td>
+    <td>{{text.unKnownWords}}</td>
+    <td>{{text.uniqueWords}}</td>
+    <td>{{calcualtePercentage(text.unKnownWords,text.uniqueWords)}}</td>
+    <td>{{text.nrWords}}</td>
     <td>
       <button (click)="onEdit(text)">Edit</button></td>
     <td><button (click)="onDelete(text.id)" class="btn btn-danger">x</button></td>

@@ -43,4 +43,10 @@ export class TextsListComponent implements OnInit, OnDestroy {
 
 
   }
+
+  calcualtePercentage(unKnownWords: number, uniqueWords: number) {
+
+    return unKnownWords/unKnownWords*100;
+
+  }
 }

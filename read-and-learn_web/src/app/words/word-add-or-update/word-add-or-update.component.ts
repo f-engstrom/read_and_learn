@@ -36,7 +36,8 @@ export class WordAddOrUpdateComponent implements OnInit {
 
     console.log("submit", wordForm.value);
     let translations = wordForm.value.translations.split(",") as string[];
-    let tags = wordForm.value.tags.split(",") as string[];
+    let tags: string[] =[];
+    if (wordForm.value.tags) tags = wordForm.value.tags.split(",") as string[];
 
 
     const word = new Word(this.word.word, "", translations, tags)

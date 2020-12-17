@@ -23,7 +23,6 @@ export class RenderWordsComponent implements OnInit {
   ngOnInit(): void {
 
     let word = this.inputWord.replace(/[[0-9.,«»;!?]+/g, "").toLowerCase();
-    console.log("rendered word ", word);
 
     if (this.wordService.findWord(word)) {
 
