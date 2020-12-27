@@ -21,6 +21,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
   pangeNr: number = 0;
   pages: Page[] = [];
   currentPage: Page = this.pages[this.pangeNr];
+  //wordsInCompoundWord: { paragraphIndex: number, wordIndex: number, compoundWord: string, isLastWord: boolean }[] = [];
 
   constructor(private wordService: WordService, private textService: TextsService, private activatedRoute: ActivatedRoute) {
   }
@@ -34,6 +35,9 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
       this.text = this.textService.getText(params['textid']) as Text;
 
       this.unkownWords = this.text.unKnownWords as number;
+
+
+      this.compoundWords(this.text.body);
 
       this.pages = this.createPages(this.text.body);
       this.currentPage = this.pages[this.pangeNr];
@@ -53,6 +57,95 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
   }
 
+  compoundWords(paragraph: string): { wordIndex: number, compoundWord: string, isLastWord: boolean }[] {
+
+
+    let textWords = paragraph.split(" ");
+    let compoundWordsInParagraph: { wordIndex: number, compoundWord: string, isLastWord: boolean }[] = [];
+
+
+    textWords.forEach((word, wordIndex) => {
+
+      let cleanWord = word.replace(/[[0-9.,«»;!?]+/g, "").toLowerCase();
+
+      let matchedCompoundWords = this.wordService.compoundWords.filter(compoundWord => {
+
+
+        return compoundWord.word.split(" ")[0].toLowerCase().replace(/[[0-9.,«»;!?]+/g, "") === cleanWord;
+
+      })
+
+
+      if (matchedCompoundWords.length > 0) {
+        // console.log("word", word);
+        // console.log("matched compoundWords", matchedCompoundWords);
+
+        matchedCompoundWords.forEach(matchedCompoundWord => {
+
+          let wordsAfter: string = "";
+
+          let compoundWordLength = matchedCompoundWord.word.split(" ").length;
+
+
+          let maxIndex = wordIndex + compoundWordLength;
+
+          let possibleCompoundWords: { wordIndex: number, compoundWord: string, isLastWord: boolean }[] = [];
+
+
+          for (let i = wordIndex; i < maxIndex; i++) {
+
+            wordsAfter += " " + textWords[i];
+
+            if (i === maxIndex - 1) {
+              // console.log("last word",textWords[i]);
+              possibleCompoundWords.push({
+                wordIndex: i,
+                compoundWord: matchedCompoundWord.word,
+                isLastWord: true
+              })
+
+
+            } else {
+
+              possibleCompoundWords.push({
+                wordIndex: i,
+                compoundWord: matchedCompoundWord.word,
+                isLastWord: false
+              })
+            }
+
+
+          }
+
+
+          // console.log("Index", index);
+
+
+          if (wordsAfter.trim().replace(/[[0-9.,«»;!?]+/g, "").toLowerCase() === matchedCompoundWord.word.trim().replace(/[[0-9.,«»;!?]+/g, "").toLowerCase()) {
+
+
+            //this.wordsInCompoundWord = this.wordsInCompoundWord.concat(possibleCompoundWord);
+
+            compoundWordsInParagraph = compoundWordsInParagraph.concat(possibleCompoundWords);
+
+          }
+
+
+        })
+
+      }
+
+
+    })
+
+
+
+
+    return compoundWordsInParagraph;
+
+
+  }
+
 
   createPages(textBody: string) {
 
@@ -63,7 +156,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
     let endIndex = 330;
     let pages: Page[] = [];
 
-    let page: Page = new Page([]);
+    let page: Page = new Page([], []);
 
 
     let paragraphs = textBody.split(/\n/);
@@ -71,16 +164,31 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
     let pageLength = 0;
     let nrParagraphs = 0;
 
-    for (let paragraph of paragraphs) {
+
+    paragraphs.forEach((paragraph,paragraphIndex)=>{
+
 
       let paragraphLength = paragraph.split(" ").length;
+      let compoundWords = this.compoundWords(paragraph);
 
-      if (paragraphLength + pageLength <= 330 && nrParagraphs <6) {
+
+      let compoundWordsWithParagraphIndex = compoundWords.map(compoundWord => {
+        return {paragraphIndex: paragraphIndex, ...compoundWord}
+      })
+
+
+
+      if (paragraphLength + pageLength <= 330 && nrParagraphs < 6) {
 
 
         let paragraphWords = paragraph.split(" ");
 
         page.paragraphs.push(paragraphWords);
+
+
+
+        // @ts-ignore
+        page.wordsInCompoundWord = page.wordsInCompoundWord.concat(compoundWordsWithParagraphIndex);
 
         pageLength += paragraphLength;
         nrParagraphs++;
@@ -88,13 +196,15 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
       } else {
 
         pages.push(page);
-        page = new Page([]);
+        page = new Page([], []);
         pageLength = 0;
-        nrParagraphs =0;
+        nrParagraphs = 0;
 
         let paragraphWords = paragraph.split(" ");
 
         page.paragraphs.push(paragraphWords);
+        // @ts-ignore
+        page.wordsInCompoundWord = page.wordsInCompoundWord.concat(compoundWordsWithParagraphIndex);
 
         pageLength += paragraphLength;
         nrParagraphs++;
@@ -102,7 +212,40 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
       }
 
-    }
+    })
+    //
+    // for (let paragraph of paragraphs) {
+    //
+    //   let paragraphLength = paragraph.split(" ").length;
+    //
+    //   if (paragraphLength + pageLength <= 330 && nrParagraphs < 6) {
+    //
+    //
+    //     let paragraphWords = paragraph.split(" ");
+    //
+    //     page.paragraphs.push(paragraphWords);
+    //
+    //     pageLength += paragraphLength;
+    //     nrParagraphs++;
+    //
+    //   } else {
+    //
+    //     pages.push(page);
+    //     page = new Page([], []);
+    //     pageLength = 0;
+    //     nrParagraphs = 0;
+    //
+    //     let paragraphWords = paragraph.split(" ");
+    //
+    //     page.paragraphs.push(paragraphWords);
+    //
+    //     pageLength += paragraphLength;
+    //     nrParagraphs++;
+    //
+    //
+    //   }
+    //
+    // }
 
     // let wordsForPage = allWords.slice(0, 330);
     //
@@ -152,8 +295,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
   onPageUp() {
 
-    if (this.pangeNr+1  <= this.pages.length-1) {
-      console.log(`page nr ${this.pangeNr+1 } pages  ${this.pages.length-1} `)
+    if (this.pangeNr + 1 <= this.pages.length - 1) {
 
       this.pangeNr++;
       this.currentPage = this.pages[this.pangeNr];
@@ -172,7 +314,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 // }
 
 class Page {
-  constructor(public paragraphs: string[][]) {
+  constructor(public paragraphs: string[][], public wordsInCompoundWord: { paragraphIndex: number, wordIndex: number, compoundWord: string, isLastWord: boolean }[]) {
   }
 
 }

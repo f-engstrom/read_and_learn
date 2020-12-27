@@ -16,9 +16,9 @@
   <tbody>
   <tr  *ngFor="let text of texts">
     <td><a [routerLink]="[text.id,text.urlSlug]"><span>{{text.name}}</span></a> </td>
-    <td>{{text.unKnownWords}}</td>
+    <td>{{text.unKnownWords? text.unKnownWords:0}}</td>
     <td>{{text.uniqueWords}}</td>
-    <td>{{calcualtePercentage(text.unKnownWords,text.uniqueWords)}}</td>
+    <td>{{calcualtePercentage(text.unKnownWords ? text.unKnownWords : 0,text.uniqueWords)}}</td>
     <td>{{text.nrWords}}</td>
     <td>
       <button (click)="onEdit(text)">Edit</button></td>

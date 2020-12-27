@@ -32,6 +32,9 @@ interface WordResponse {
       },
       word: {
         stringValue: string
+      },
+      isCompoundWord: {
+        booleanValue: boolean
       }
     },
     createTime: string,
@@ -49,6 +52,15 @@ export class WordService {
   updatedWord = new Subject<Word>();
 
   words: Word[] = [];
+
+  compoundWords: Word[] = [new Word("Она гуляла одна, всё"),
+    new Word("Ему не было"),
+    new Word("Говорили, что на набережной"),
+    new Word("уже дочь двенадцати"),
+    new Word("саду и на сквере"),
+    new Word("уже дочь двенадцати лет")
+  ];
+
 
   //[new Word("набережной", "", ["embankment", "waterfront"], []), new Word("появилось", "", ["någotryskt"], [])]
 
@@ -107,7 +119,9 @@ export class WordService {
 
     this.http.post("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/words/", body).subscribe(res => {
         console.log("res", res);
-      },error => {console.log("words error",error)}
+      }, error => {
+        console.log("words error", error)
+      }
     )
 
   }
@@ -130,20 +144,22 @@ export class WordService {
   private fetchWords() {
 
     return this.http.get<WordResponse>("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/words/").pipe(map(wordRe => {
-      console.log("fetch wiords");
+      console.log("fetch wiords", wordRe);
 
       return wordRe.documents.map((word) => {
         let arr = word.name.split("/");
         let id = arr[arr.length - 1];
         let translations = word.fields.translations.arrayValue.values.map(stringObj => stringObj.stringValue);
-        let tags:string[]=[];
-        if (word.fields.tags.arrayValue.values){
-           tags = word.fields.tags.arrayValue.values.map(stringObj => stringObj.stringValue);
+        let tags: string[] = [];
+        if (word.fields.tags.arrayValue.values) {
+          tags = word.fields.tags.arrayValue.values.map(stringObj => stringObj.stringValue);
 
         }
+        let isCompoundWord = false;
+        if (word.fields.isCompoundWord.booleanValue ) isCompoundWord= word.fields.isCompoundWord.booleanValue;
 
 
-        return new Word(word.fields.word.stringValue, id, translations, tags);
+        return new Word(word.fields.word.stringValue, id, translations, tags,isCompoundWord );
       })
 
 

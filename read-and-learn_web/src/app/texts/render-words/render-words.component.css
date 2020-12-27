@@ -13,3 +13,18 @@
   padding-left: 5px;
   padding-right: 5px;
 }
+
+.partOfCompoundWord{
+
+  background-color: #6f6fe3;
+
+}
+
+.superScript{
+
+  font-size: .83em;
+  vertical-align: super;
+  padding-left: 5px;
+  padding-right: 5px;
+
+}

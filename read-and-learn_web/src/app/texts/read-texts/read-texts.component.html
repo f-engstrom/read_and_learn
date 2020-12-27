@@ -9,9 +9,10 @@
     <!--      </p>-->
 
     <!--    </div>-->
-    <div *ngFor="let paragraph of currentPage.paragraphs">
+    <div *ngFor="let paragraph of currentPage.paragraphs;let paragraphIndex=index">
       <p>
-        <app-render-words *ngFor="let word of paragraph " [inputWord]="word"></app-render-words>
+        <app-render-words *ngFor="let word of paragraph; let wordIndex=index "
+                          [inputData]="{paragraphIndex:paragraphIndex,wordIndex:wordIndex,word:word,compoundWordList:currentPage.wordsInCompoundWord}"></app-render-words>
       </p>
     </div>
 
@@ -23,7 +24,6 @@
     <app-word-add-or-update></app-word-add-or-update>
   </div>
 </div>
-
 
 
 <div class="row">
