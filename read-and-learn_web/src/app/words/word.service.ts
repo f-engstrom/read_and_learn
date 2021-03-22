@@ -48,18 +48,20 @@ interface WordResponse {
 })
 export class WordService {
 
-  chosenWord = new Subject<Word>();
+  chosenWord = new Subject<{ word: Word, isPartOfCompoundWord: boolean }>();
   updatedWord = new Subject<Word>();
 
   words: Word[] = [];
 
-  compoundWords: Word[] = [new Word("Она гуляла одна, всё"),
-    new Word("Ему не было"),
-    new Word("Говорили, что на набережной"),
-    new Word("уже дочь двенадцати"),
-    new Word("саду и на сквере"),
-    new Word("уже дочь двенадцати лет")
-  ];
+  compoundWords: Word[] = [];
+
+  //   [new Word("Она гуляла одна, всё"),
+  //   new Word("Говорили, что на набережной"),
+  //   new Word("уже дочь двенадцати"),
+  //   new Word("саду и на сквере"),
+  //   new Word("уже дочь двенадцати лет")
+  // ];
+
 
 
   //[new Word("набережной", "", ["embankment", "waterfront"], []), new Word("появилось", "", ["någotryskt"], [])]
@@ -82,7 +84,7 @@ export class WordService {
     this.words.push(word);
     this.updatedWord.next(word);
 
-    console.log("add word", word.translations);
+    console.log("add word", word);
 
     let translations = word.translations?.map(trans => {
       return {
@@ -98,6 +100,9 @@ export class WordService {
 
     const body = {
       fields: {
+        isCompoundWord: {
+          booleanValue: word.isCompoundWord
+        },
         tags: {
           arrayValue: {
 
@@ -118,7 +123,7 @@ export class WordService {
 
 
     this.http.post("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/words/", body).subscribe(res => {
-        console.log("res", res);
+      //  console.log("res", res);
       }, error => {
         console.log("words error", error)
       }
@@ -156,14 +161,24 @@ export class WordService {
 
         }
         let isCompoundWord = false;
-        if (word.fields.isCompoundWord.booleanValue ) isCompoundWord= word.fields.isCompoundWord.booleanValue;
+        if (word.fields.isCompoundWord.booleanValue) isCompoundWord = word.fields.isCompoundWord.booleanValue;
 
 
-        return new Word(word.fields.word.stringValue, id, translations, tags,isCompoundWord );
+        return new Word(word.fields.word.stringValue, id, translations, tags, isCompoundWord);
       })
 
 
-    }), tap(words => this.words = words));
+    }), tap(words => {
+      words.forEach(word => {
+
+        if (word.isCompoundWord) {
+          this.compoundWords.push(word);
+        } else {
+          this.words.push(word);
+        }
+
+      });
+    }));
 
 
   }

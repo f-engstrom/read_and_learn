@@ -23,7 +23,7 @@ export class AddTextComponent implements OnInit {
     this.route.params.subscribe(params => {
 
       if (params['textid']) {
-        console.log("editmode");
+       // console.log("editmode");
         this.editMode = true;
         this.text = this.textsService.getText(params['textid']) as Text;
 
@@ -37,7 +37,7 @@ export class AddTextComponent implements OnInit {
 
   onSubmit(addTextForm: NgForm) {
 
-    console.log("add text", addTextForm.value.textName);
+  //  console.log("add text", addTextForm.value.textName);
 
     if (!this.editMode) {
       this.textsService.addText(new Text(this.text?.id as string, addTextForm.value.textName, addTextForm.value.text, this.wordService.countUnknownWords(addTextForm.value.text)))

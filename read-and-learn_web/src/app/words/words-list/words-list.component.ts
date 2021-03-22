@@ -19,7 +19,7 @@ export class WordsListComponent implements OnInit {
 
     this.wordService.getWords().subscribe((words: Word[]) => {
 
-      console.log("woooords", words);
+     // console.log("woooords", words);
 
       if (words) this.words = words;
 

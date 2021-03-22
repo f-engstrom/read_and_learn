@@ -3,8 +3,8 @@
 
   <form (ngSubmit)="onSubmit(wordForm)" #wordForm="ngForm">
 
+    <button type="button" (click)="onClose()" class="btn-close" aria-label="Close"></button>
     <p>{{word.word}}</p>
-
     <div class="form-group">
       <label for="translations">Translations:</label>
       <textarea [(ngModel)]="word.translations" class="form-control" name="translations" id="translations" cols="30"

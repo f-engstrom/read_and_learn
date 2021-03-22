@@ -12,12 +12,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class TextsListComponent implements OnInit, OnDestroy {
 
-  constructor(private textsService: TextsService,private router:Router,private route:ActivatedRoute) {
+  constructor(private textsService: TextsService, private router: Router, private route: ActivatedRoute) {
   }
 
   texts: Text[] = [];
   textSub!: Subscription;
-  textChangedSub!:Subscription;
+  textChangedSub!: Subscription;
 
   ngOnInit() {
 
@@ -39,14 +39,14 @@ export class TextsListComponent implements OnInit, OnDestroy {
 
   onEdit(text: Text) {
 
-    this.router.navigate(["edit",text.id,text.urlSlug],{relativeTo:this.route})
+    this.router.navigate(["edit", text.id, text.urlSlug], {relativeTo: this.route})
 
 
   }
 
   calcualtePercentage(unKnownWords: number, uniqueWords: number) {
 
-    return unKnownWords/unKnownWords*100;
+    return Math.round(unKnownWords / uniqueWords * 100);
 
   }
 }

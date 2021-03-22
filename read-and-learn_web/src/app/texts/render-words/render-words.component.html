@@ -1,10 +1,11 @@
 <span *ngIf="!skipChar"
       class="word" [ngClass]="{'knownWord': isKnown, 'unknownWord':!isKnown,'partOfCompoundWord':partOfCompoundWord}"
-      (click)="onAddOrUpdate()">
+      (click)="onAddOrUpdate($event)">
   {{inputData.word}}
 
 
 </span>
+
 <span *ngFor="let lastword of isLastWord">
     <span (click)="onCompoundWordClick(lastword.compoundWord)"
           class="superScript"> {{lastword.compoundWord.split(" ").length}}</span>

@@ -2,9 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TextsService} from "../texts.service";
 import {Text} from "../../shared/models/text";
 import {ActivatedRoute} from "@angular/router";
-import {WordsComponent} from "../../words/words/words.component";
 import {WordService} from "../../words/word.service";
-import {Word} from "../../shared/models/word";
 
 @Component({
   selector: 'app-read-texts',
@@ -16,12 +14,10 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
   text!: Text;
   words!: string[][];
-  parahraphps: string[] = [];
   unkownWords: number = 0;
   pangeNr: number = 0;
   pages: Page[] = [];
   currentPage: Page = this.pages[this.pangeNr];
-  //wordsInCompoundWord: { paragraphIndex: number, wordIndex: number, compoundWord: string, isLastWord: boolean }[] = [];
 
   constructor(private wordService: WordService, private textService: TextsService, private activatedRoute: ActivatedRoute) {
   }
@@ -36,20 +32,17 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
       this.unkownWords = this.text.unKnownWords as number;
 
-
-      this.compoundWords(this.text.body);
-
       this.pages = this.createPages(this.text.body);
       this.currentPage = this.pages[this.pangeNr];
 
-      console.log("pages", this.pages);
+     // console.log("pages", this.pages);
 
     })
 
 
     this.wordService.updatedWord.subscribe(() => {
 
-      console.log("add word ");
+     // console.log("add word ");
       this.unkownWords = this.wordService.countUnknownWords(this.text.body);
 
     })
@@ -77,8 +70,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
 
       if (matchedCompoundWords.length > 0) {
-        // console.log("word", word);
-        // console.log("matched compoundWords", matchedCompoundWords);
+
 
         matchedCompoundWords.forEach(matchedCompoundWord => {
 
@@ -97,7 +89,6 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
             wordsAfter += " " + textWords[i];
 
             if (i === maxIndex - 1) {
-              // console.log("last word",textWords[i]);
               possibleCompoundWords.push({
                 wordIndex: i,
                 compoundWord: matchedCompoundWord.word,
@@ -178,7 +169,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
 
 
 
-      if (paragraphLength + pageLength <= 330 && nrParagraphs < 6) {
+      if (paragraphLength + pageLength <= 330 && nrParagraphs < 8) {
 
 
         let paragraphWords = paragraph.split(" ");
@@ -304,14 +295,7 @@ export class ReadTextsComponent implements OnInit, OnDestroy {
   }
 }
 
-// interface Page {
-//
-//   paragraphs: [
-//     words: string[]
-//   ]
-//
-//
-// }
+
 
 class Page {
   constructor(public paragraphs: string[][], public wordsInCompoundWord: { paragraphIndex: number, wordIndex: number, compoundWord: string, isLastWord: boolean }[]) {

@@ -60,9 +60,9 @@ export class TextsService {
 
 
 
-    console.log("text", text);
+  //  console.log("text", text);
     this.http.post("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/texts/", body).subscribe(res => {
-        console.log("res", res);
+       // console.log("res", res);
       }
     )
 
@@ -80,7 +80,7 @@ export class TextsService {
     this.textSub.next(this.texts);
 
     this.http.delete("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/texts/"+id).subscribe(res => {
-        console.log("res", res);
+      //  console.log("res", res);
       }
     )
 
@@ -154,9 +154,9 @@ export class TextsService {
     }
 
 
-    console.log("text", text);
+   // console.log("text", text);
     this.http.patch("https://firestore.googleapis.com/v1/projects/read-and-learn-3577a/databases/(default)/documents/texts/"+text.id, body).subscribe(res => {
-        console.log("res", res);
+      //  console.log("res", res);
       }
     )
 

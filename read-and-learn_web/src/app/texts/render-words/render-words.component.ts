@@ -23,7 +23,7 @@ export class RenderWordsComponent implements OnInit {
   isLastWord: { paragraphIndex: number, wordIndex: number, compoundWord: string, isLastWord: boolean }[] = [];
 
 
-  skipChars = [',', '.', '-', '—', '«', '»']
+  skipChars = [',', '.', '-', '—', '«', '»'];
 
   constructor(private wordService: WordService) {
   }
@@ -44,28 +44,18 @@ export class RenderWordsComponent implements OnInit {
 
     }
 
-
-    // this.wordService.compoundWords.forEach(compoundWord=>{
-    //
-    //   this.matchCompoundWord(compoundWord);
-    //
-    // })
-
-    console.log("word" + this.inputData.word + " paragraphIndex " + this.inputData.paragraphIndex + " wordIndex " + this.inputData.wordIndex);
-    console.log("compoundwords ", this.inputData.compoundWordList)
-
+    //  console.log("word" + this.inputData.word + " paragraphIndex " + this.inputData.paragraphIndex + " wordIndex " + this.inputData.wordIndex);
+    // console.log("compoundwords ", this.inputData.compoundWordList)
     let matches = this.inputData.compoundWordList.filter(matches => {
 
-
-      console.log("matchdata", matches.paragraphIndex);
+      //   console.log("matchdata", matches.paragraphIndex);
       return matches.paragraphIndex === this.inputData.paragraphIndex && matches.wordIndex === this.inputData.wordIndex;
 
     })
-    // console.log(" matches " + matches + " word " + this.inputData.word + " index " + this.inputData.paragraphIndex + " index " + this.inputData.wordIndex)
 
     if (matches.length > 0) {
 
-      console.log("match")
+      //   console.log("match")
       this.partOfCompoundWord = true;
       this.isLastWord = matches.filter(match => {
         return match.isLastWord
@@ -95,55 +85,27 @@ export class RenderWordsComponent implements OnInit {
 
   }
 
-  onAddOrUpdate() {
+  onAddOrUpdate($event: MouseEvent) {
 
-    this.wordService.chosenWord.next(this.word);
+    console.log(this.word)
+    $event.altKey ? this.wordService.chosenWord.next({
+      word: new Word(this.word?.word as string,this.word?.id as string,this.word?.translations,this.word?.tags,this.word?.isCompoundWord),
+      isPartOfCompoundWord: true
+    }) : this.wordService.chosenWord.next({
+      word: new Word(this.word?.word as string, this.word?.id as string, this.word?.translations, this.word?.tags, this.word?.isCompoundWord),
+      isPartOfCompoundWord: false
+    });
 
   }
 
 
-  // matchCompoundWord(compoundWord: Word) {
-  //
-  //   if (compoundWord.word.toLowerCase().includes(<string>this.word?.word.toLowerCase())) {
-  //     let compoundWordWords = compoundWord.word.toLowerCase().split(" ");
-  //
-  //     let thisWordPos = compoundWordWords.indexOf(<string>this.word?.word.toLowerCase());
-  //     if (thisWordPos !== -1) {
-  //
-  //       let surroundingWords: string[] = [];
-  //       let startingIndex = thisWordPos;
-  //       if (thisWordPos > 0) {
-  //
-  //         startingIndex = this.inputData.i - thisWordPos;
-  //
-  //       }
-  //
-  //
-  //       let maxIndex = startingIndex + compoundWordWords.length;
-  //
-  //       for (let i = startingIndex; i < maxIndex; i++) {
-  //
-  //         surroundingWords.push(this.inputData.paragraph[i])
-  //
-  //       }
-  //
-  //
-  //       if (surroundingWords.toString().toLowerCase() === compoundWordWords.toString().toLowerCase()) {
-  //         this.partOfCompoundWord = true;
-  //
-  //
-  //       }
-  //
-  //
-  //     }
-  //
-  //
-  //   }
-  // }
-
   onCompoundWordClick(compoundWord: string) {
 
-    console.log("clicked compound", compoundWord);
+
+    this.wordService.chosenWord.next({
+      word: new Word(compoundWord),
+      isPartOfCompoundWord: false
+    })
 
   }
 }

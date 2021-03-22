@@ -9,8 +9,9 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./word-add-or-update.component.css']
 })
 export class WordAddOrUpdateComponent implements OnInit {
-  word!: Word;
+  word: Word | null = null;
   isKnown: boolean = false;
+  isCompoundWord = false;
 
   constructor(private wordService: WordService) {
   }
@@ -19,29 +20,57 @@ export class WordAddOrUpdateComponent implements OnInit {
 
     this.wordService.chosenWord.subscribe(word => {
 
-      console.log("clicked word", word);
 
-      this.isKnown = false;
-        if (word) {
-          this.word = word;
+        if (!word.isPartOfCompoundWord) {
+
+          this.isKnown = false;
+          if (word) {
+            this.word = word.word;
+          }
+          if (this.wordService.findWord(word.word.word)) this.isKnown = true;
+
+          this.isCompoundWord = this.word?.isCompoundWord as boolean;
+
+        } else {
+
+          if (!this.word) {
+            console.log("no word")
+            this.word = word.word;
+
+          } else {
+            console.log("word exists")
+            this.word.word += " " + word.word.word;
+
+          }
+          this.word.word = this.word.word.trim();
+          this.isCompoundWord = true;
         }
-        if (this.wordService.findWord(word.word)) this.isKnown = true;
+
 
       }
     );
 
   }
 
+  onClose() {
+
+    this.word = null;
+
+  }
+
   onSubmit(wordForm: NgForm) {
 
-    console.log("submit", wordForm.value);
+//    console.log("submit", wordForm.value);
     let translations = wordForm.value.translations.split(",") as string[];
-    let tags: string[] =[];
+    let tags: string[] = [];
     if (wordForm.value.tags) tags = wordForm.value.tags.split(",") as string[];
 
+    // @ts-ignore
+    const word = new Word(this.word.word, "", translations, tags, this.isCompoundWord);
 
-    const word = new Word(this.word.word, "", translations, tags)
     this.wordService.addWord(word);
+
+    this.onClose();
 
   }
 }
